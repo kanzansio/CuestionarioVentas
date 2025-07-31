@@ -8,10 +8,33 @@ import { ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react';
 import { assessmentData } from '../data/questions';
 
 const AssessmentForm = ({ onComplete }) => {
+  const STORAGE_KEY = 'ia-ventas-assessment';
+
   const [currentAreaIndex, setCurrentAreaIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isCompleted, setIsCompleted] = useState(false);
+
+  
+  // Cargar progreso previo
+  React.useEffect(() => {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      try {
+        const data = JSON.parse(raw);
+        if (data.answers) setAnswers(data.answers);
+        if (Number.isInteger(data.currentAreaIndex)) setCurrentAreaIndex(data.currentAreaIndex);
+        if (Number.isInteger(data.currentQuestionIndex)) setCurrentQuestionIndex(data.currentQuestionIndex);
+      } catch(e){}
+    }
+  }, []);
+
+  // Guardar progreso
+  React.useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      currentAreaIndex, currentQuestionIndex, answers
+    }));
+  }, [currentAreaIndex, currentQuestionIndex, answers]);
 
   const currentArea = assessmentData.areas[currentAreaIndex];
   const currentQuestion = currentArea.questions[currentQuestionIndex];
@@ -25,6 +48,12 @@ const AssessmentForm = ({ onComplete }) => {
       ...prev,
       [questionId]: parseInt(value)
     }));
+  };
+
+  
+  const skipQuestion = () => {
+    // No registra respuesta, solo avanza
+    goToNext();
   };
 
   const goToNext = () => {
@@ -163,6 +192,14 @@ const AssessmentForm = ({ onComplete }) => {
         >
           <ChevronLeft className="w-4 h-4" />
           <span>Anterior</span>
+        </Button>
+
+        <Button
+          onClick={skipQuestion}
+          variant="secondary"
+          className="flex items-center space-x-2"
+        >
+          <span>Omitir</span>
         </Button>
 
         <Button

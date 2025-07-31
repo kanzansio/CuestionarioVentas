@@ -32,7 +32,8 @@ import { generateRecommendations } from '../data/recommendations';
 
 const ResultsReport = ({ results, userInfo, onRestart }) => {
   const { totalScore, areaScores, maxScore } = results;
-  const maturityLevel = getMaturityLevel(totalScore);
+  const totalMax = maxScore;
+  const maturityLevel = getMaturityLevel(totalScore, totalMax);
   const recommendations = generateRecommendations(areaScores);
 
   // Preparar datos para el gráfico radar
@@ -40,19 +41,19 @@ const ResultsReport = ({ results, userInfo, onRestart }) => {
     area: area.name.split(' ')[0], // Usar solo la primera palabra para el gráfico
     fullName: area.name,
     score: areaScores[area.id],
-    maxScore: 50,
-    percentage: (areaScores[area.id] / 50) * 100
+    maxScore: (area.questions.length * 5),
+    percentage: (areaScores[area.id] / (area.questions.length * 5)) * 100
   }));
 
   // Preparar datos para el gráfico de barras
   const barData = assessmentData.areas.map(area => {
     const score = areaScores[area.id];
-    const level = getAreaMaturityLevel(score);
+    const level = getAreaMaturityLevel(score, assessmentData.areas.find(a => a.id === area.id).questions.length * 5);
     return {
       name: area.name.split(' ')[0],
       fullName: area.name,
       score,
-      maxScore: 50,
+      maxScore: (area.questions.length * 5),
       level: level.label,
       color: level.color
     };
@@ -256,8 +257,8 @@ const ResultsReport = ({ results, userInfo, onRestart }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {assessmentData.areas.map(area => {
               const score = areaScores[area.id];
-              const level = getAreaMaturityLevel(score);
-              const percentage = (score / 50) * 100;
+              const level = getAreaMaturityLevel(score, assessmentData.areas.find(a => a.id === area.id).questions.length * 5);
+              const percentage = (score / (area.questions.length * 5)) * 100;
               
               return (
                 <div key={area.id} className="p-4 border rounded-lg space-y-3">
@@ -276,7 +277,7 @@ const ResultsReport = ({ results, userInfo, onRestart }) => {
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Puntuación</span>
-                      <span className="font-medium">{score}/50</span>
+                      <span className="font-medium">{score}/{assessmentData.areas.find(a => a.id === area.id).questions.length * 5}</span>
                     </div>
                     <Progress value={percentage} className="h-2" />
                   </div>
