@@ -931,10 +931,10 @@ export const getMaturityLevel = (score, totalMax) => {
   const q2 = 0.50 * totalMax;
   const q3 = 0.75 * totalMax;
 
-  if (score <= q1) return { level: 'Explorador', color: '#ef4444', description: 'Pilotos dispersos; enfócate en datos/CRM y 1–2 casos de uso tractables.' };
-  if (score <= q2) return { level: 'Iniciado', color: '#f59e0b', description: 'Adopción inicial; formaliza playbooks, templates de prompt y medición.' };
-  if (score <= q3) return { level: 'Integrador', color: '#3b82f6', description: 'Fluye en el día a día; acelera A/B tests y automatiza CRM.' };
-  return { level: 'Orquestador', color: '#10b981', description: 'Optimización continua; escala automatizaciones y mide ROI por caso de uso.' };
+  if (score <= q1) return { label: 'Explorador', level: 'Explorador', color: '#ef4444', description: 'Pilotos dispersos; enfócate en datos/CRM y 1–2 casos de uso tractables.' };
+  if (score <= q2) return { label: 'Iniciado', level: 'Iniciado', color: '#f59e0b', description: 'Adopción inicial; formaliza playbooks, templates de prompt y medición.' };
+  if (score <= q3) return { label: 'Integrador', level: 'Integrador', color: '#3b82f6', description: 'Fluye en el día a día; acelera A/B tests y automatiza CRM.' };
+  return { label: 'Orquestador', level: 'Orquestador', color: '#10b981', description: 'Optimización continua; escala automatizaciones y mide ROI por caso de uso.' };
 };
 
 export const getAreaMaturityLevel = (areaScore, areaMax) => {
@@ -942,8 +942,8 @@ export const getAreaMaturityLevel = (areaScore, areaMax) => {
   const q2 = 0.50 * areaMax;
   const q3 = 0.75 * areaMax;
 
-  if (areaScore <= q1) return { level: 'Explorador', color: '#ef4444', min: 0, max: q1 };
-  if (areaScore <= q2) return { level: 'Iniciado', color: '#f59e0b', min: q1+1, max: q2 };
-  if (areaScore <= q3) return { level: 'Integrador', color: '#3b82f6', min: q2+1, max: q3 };
-  return { level: 'Orquestador', color: '#10b981', min: q3+1, max: areaMax };
+  if (areaScore <= q1) return { label: 'Explorador', level: 'Explorador', color: '#ef4444', min: 0, max: q1 };
+  if (areaScore <= q2) return { label: 'Iniciado', level: 'Iniciado', color: '#f59e0b', min: q1+1, max: q2 };
+  if (areaScore <= q3) return { label: 'Integrador', level: 'Integrador', color: '#3b82f6', min: q2+1, max: q3 };
+  return { label: 'Orquestador', level: 'Orquestador', color: '#10b981', min: q3+1, max: areaMax };
 };

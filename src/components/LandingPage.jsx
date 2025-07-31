@@ -113,14 +113,15 @@ const LandingPage = ({ onStart }) => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-12">
+        <div className="flex items-center justify-center mb-6">
+          <img src="https://iven.academy/wp-content/uploads/2023/03/Asset-3-2.svg" alt="IVen Academy" className="h-12" />
+        </div>
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            ¿Qué tan maduro es tu 
-            <span className="text-blue-600"> equipo de ventas</span>?
+            ¿Qué tan preparada está tu <span className="text-blue-600">área de ventas</span> para aprovechar la <span className="text-blue-600">IA</span>?
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Descubre el nivel de madurez de tu equipo comercial con nuestra evaluación 
-            especializada y recibe un plan de acción personalizado para maximizar resultados.
+            Evalúa la adopción de IA en tu proceso comercial y recibe un plan de acción personalizado (30/60/90 días) para mejorar prospección, calificación, propuestas y cierre.
           </p>
           
           <div className="flex items-center justify-center space-x-8 text-sm text-gray-500 mb-8">
@@ -145,7 +146,7 @@ const LandingPage = ({ onStart }) => {
             <CardHeader>
               <CardTitle className="text-2xl">Comenzar Evaluación</CardTitle>
               <CardDescription>
-                Completa tus datos para recibir un reporte personalizado
+                Completa tus datos y obtén un diagnóstico de adopción de IA con recomendaciones por área
               </CardDescription>
             </CardHeader>
             <CardContent>

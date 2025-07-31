@@ -31,6 +31,12 @@ import { assessmentData, getMaturityLevel, getAreaMaturityLevel } from '../data/
 import { generateRecommendations } from '../data/recommendations';
 
 const ResultsReport = ({ results, userInfo, onRestart }) => {
+  
+const handleDownload = () => {
+  // Fallback simple export: imprime o guarda como PDF desde el navegador
+  window.print();
+};
+
   const { totalScore, areaScores, maxScore } = results;
   const totalMax = maxScore;
   const maturityLevel = getMaturityLevel(totalScore, totalMax);
@@ -94,6 +100,9 @@ const ResultsReport = ({ results, userInfo, onRestart }) => {
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
+            <img src="https://iven.academy/wp-content/uploads/2023/03/Asset-3-2.svg" alt="IVen Academy" className="h-10" />
+          </div>
+          <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-2xl">Diagnóstico de Madurez del Equipo de Ventas</CardTitle>
               <CardDescription className="mt-2">
@@ -106,7 +115,7 @@ const ResultsReport = ({ results, userInfo, onRestart }) => {
                 })}
               </CardDescription>
             </div>
-            <Button variant="outline" className="flex items-center space-x-2">
+            <Button variant="outline" className="flex items-center space-x-2" onClick={handleDownload}>
               <Download className="w-4 h-4" />
               <span>Descargar Reporte</span>
             </Button>
@@ -114,7 +123,33 @@ const ResultsReport = ({ results, userInfo, onRestart }) => {
         </CardHeader>
       </Card>
 
-      {/* Resumen Ejecutivo */}
+      {/* Resumen Ejecutivo */
+      {/* Analíticas */}
+      <Card className="mt-6">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg">Analíticas del Diagnóstico</CardTitle>
+          <CardDescription>Desglose por dimensiones: puntaje y porcentaje</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {assessmentData.areas.map((area) => {
+              const score = areaScores[area.id] || 0;
+              const max = area.questions.length * 5;
+              const pct = Math.round((score / max) * 100);
+              return (
+                <div key={area.id} className="p-4 border rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="font-medium">{area.name}</div>
+                    <div className="text-sm text-muted-foreground">{score}/{max} · {pct}%</div>
+                  </div>
+                  <Progress value={pct} className="h-2" />
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+    }
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
           <CardHeader className="pb-3">
@@ -179,6 +214,9 @@ const ResultsReport = ({ results, userInfo, onRestart }) => {
         {/* Gráfico Radar */}
         <Card>
           <CardHeader>
+          <div className="flex items-center justify-between">
+            <img src="https://iven.academy/wp-content/uploads/2023/03/Asset-3-2.svg" alt="IVen Academy" className="h-10" />
+          </div>
             <CardTitle>Perfil de Madurez por Área</CardTitle>
             <CardDescription>
               Visualización general del nivel de tu equipo en cada área evaluada
@@ -211,6 +249,9 @@ const ResultsReport = ({ results, userInfo, onRestart }) => {
         {/* Gráfico de Barras */}
         <Card>
           <CardHeader>
+          <div className="flex items-center justify-between">
+            <img src="https://iven.academy/wp-content/uploads/2023/03/Asset-3-2.svg" alt="IVen Academy" className="h-10" />
+          </div>
             <CardTitle>Puntuación Detallada por Área</CardTitle>
             <CardDescription>
               Comparación directa del rendimiento en cada área
@@ -248,6 +289,9 @@ const ResultsReport = ({ results, userInfo, onRestart }) => {
       {/* Análisis Detallado por Área */}
       <Card>
         <CardHeader>
+          <div className="flex items-center justify-between">
+            <img src="https://iven.academy/wp-content/uploads/2023/03/Asset-3-2.svg" alt="IVen Academy" className="h-10" />
+          </div>
           <CardTitle>Análisis Detallado por Área</CardTitle>
           <CardDescription>
             Evaluación específica y nivel de madurez de cada área
@@ -294,6 +338,9 @@ const ResultsReport = ({ results, userInfo, onRestart }) => {
       {/* Recomendaciones Prioritarias */}
       <Card>
         <CardHeader>
+          <div className="flex items-center justify-between">
+            <img src="https://iven.academy/wp-content/uploads/2023/03/Asset-3-2.svg" alt="IVen Academy" className="h-10" />
+          </div>
           <CardTitle className="flex items-center space-x-2">
             <AlertTriangle className="w-5 h-5 text-orange-600" />
             <span>Plan de Acción Recomendado</span>
