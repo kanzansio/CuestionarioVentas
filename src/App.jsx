@@ -1,53 +1,22 @@
-import React, { useState } from 'react';
-import LandingPage from './components/LandingPage';
-import AssessmentForm from './components/AssessmentForm';
-import ResultsReport from './components/ResultsReport';
-import './App.css';
+import React, { useState } from 'react'
+import Landing from './components/Landing'
+import Assessment from './components/Assessment'
+import Results from './components/Results'
 
-function App() {
-  const [currentStep, setCurrentStep] = useState('landing'); // 'landing', 'assessment', 'results'
-  const [userInfo, setUserInfo] = useState(null);
-  const [results, setResults] = useState(null);
+export default function App(){
+  const [step, setStep] = useState('landing')
+  const [user, setUser] = useState(null)
+  const [results, setResults] = useState(null)
 
-  const handleStart = (userData) => {
-    setUserInfo(userData);
-    setCurrentStep('assessment');
-  };
-
-  const handleComplete = (assessmentResults) => {
-    setResults(assessmentResults);
-    setCurrentStep('results');
-  };
-
-  const handleRestart = () => {
-    setCurrentStep('landing');
-    setUserInfo(null);
-    setResults(null);
-  };
+  const start = (info) => { setUser(info); setStep('assessment') }
+  const complete = (res) => { setResults(res); setStep('results') }
+  const restart = () => { setUser(null); setResults(null); setStep('landing') }
 
   return (
-    <div className="min-h-screen bg-background">
-      {currentStep === 'landing' && (
-        <LandingPage onStart={handleStart} />
-      )}
-      
-      {currentStep === 'assessment' && (
-        <div className="container mx-auto px-4 py-8">
-          <AssessmentForm onComplete={handleComplete} />
-        </div>
-      )}
-      
-      {currentStep === 'results' && (
-        <div className="container mx-auto px-4 py-8">
-          <ResultsReport 
-            results={results} 
-            userInfo={userInfo}
-            onRestart={handleRestart}
-          />
-        </div>
-      )}
+    <div className="container">
+      {step === 'landing' && <Landing onStart={start} />}
+      {step === 'assessment' && <Assessment onComplete={complete} />}
+      {step === 'results' && <Results user={user} results={results} onRestart={restart} />}
     </div>
-  );
+  )
 }
-
-export default App;
